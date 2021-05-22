@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="raf_news_projekat:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>raf_news_projekat</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="raf_news_projekat-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="raf_news_projekat:war exploded" />
+    </root>
+  </artifact>
+</component>
