@@ -1,13 +1,18 @@
 package com.example.raf_news_projekat.repository.implementations;
 
+import com.example.raf_news_projekat.model.Kategorija;
 import com.example.raf_news_projekat.model.Vest;
 import com.example.raf_news_projekat.repository.IVestRepository;
 import com.example.raf_news_projekat.repository.MySqlAbstractRepository;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlVestRepository extends MySqlAbstractRepository implements IVestRepository {
+    private static final int BR_HOME_PAGE_VESTI = 10;
+    private static final int BR_NAJCITANIJIH_VESTI = 10;
+
     @Override
     public Vest dodajVest(Vest vest) {
         Connection connection = null;
@@ -82,16 +87,82 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
 
     @Override
     public List<Vest> getHomePageVesti() {
-        return null;
+        List<Vest> vesti = new ArrayList<>();
+
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM vest ORDER BY vreme_kreiranja DESC FETCH FIRST " + BR_HOME_PAGE_VESTI);
+
+            while (resultSet.next()) {
+                vesti.add(new Vest(resultSet.getInt("vest_id"), resultSet.getString("naslov"), resultSet.getString("tekst"), resultSet.getDate("vreme_kreiranja"), resultSet.getInt("broj_poseta")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(statement);
+            this.closeResultSet(resultSet);
+            this.closeConnection(connection);
+        }
+
+        return vesti;
     }
 
     @Override
     public List<Vest> getNajcitanijeVesti() {
-        return null;
+        List<Vest> vesti = new ArrayList<>();
+
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM vest ORDER BY broj_poseta DESC FETCH FIRST " + BR_NAJCITANIJIH_VESTI);
+
+            while (resultSet.next()) {
+                vesti.add(new Vest(resultSet.getInt("vest_id"), resultSet.getString("naslov"), resultSet.getString("tekst"), resultSet.getDate("vreme_kreiranja"), resultSet.getInt("broj_poseta")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(statement);
+            this.closeResultSet(resultSet);
+            this.closeConnection(connection);
+        }
+
+        return vesti;
     }
 
     @Override
-    public List<Vest> getKategorijaVesti() {
-        return null;
+    public List<Vest> getKategorijaVesti(Kategorija kategorija) {
+        List<Vest> vesti = new ArrayList<>();
+
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM vest INNER JOIN kategorija ON vest_kategorija_kategorija_id_fk = kategorija.kategorija_id");
+
+            while (resultSet.next()) {
+                vesti.add(new Vest(resultSet.getInt("vest_id"), resultSet.getString("naslov"), resultSet.getString("tekst"), resultSet.getDate("vreme_kreiranja"), resultSet.getInt("broj_poseta")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(statement);
+            this.closeResultSet(resultSet);
+            this.closeConnection(connection);
+        }
+
+        return vesti;
     }
 }

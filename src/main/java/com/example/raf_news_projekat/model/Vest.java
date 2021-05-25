@@ -15,6 +15,16 @@ public class Vest {
     private List<Tag> tagovi;
     private Kategorija kategorija;
 
+    public Vest(Integer id, String naslov, String tekst, Date vremeKreiranja, Integer brojPoseta) {
+        this.id = id;
+        this.naslov = naslov;
+        this.tekst = tekst;
+        this.vremeKreiranja = vremeKreiranja;
+        this.brojPoseta = brojPoseta;
+        komentari = new ArrayList<>();
+        tagovi = new ArrayList<>();
+    }
+
     public Vest(String naslov, String tekst, Date vremeKreiranja, Integer brojPoseta, Korisnik autor, Kategorija kategorija) {
         this.naslov = naslov;
         this.tekst = tekst;

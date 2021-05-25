@@ -1,5 +1,6 @@
 package com.example.raf_news_projekat.services;
 
+import com.example.raf_news_projekat.model.Kategorija;
 import com.example.raf_news_projekat.model.Vest;
 import com.example.raf_news_projekat.repository.IVestRepository;
 
@@ -31,7 +32,7 @@ public class VestService {
         return this.vestRepository.getNajcitanijeVesti();
     }
 
-    public List<Vest> getKategorijaVesti() {
-        return this.vestRepository.getKategorijaVesti();
+    public List<Vest> getKategorijaVesti(Kategorija kategorija) {
+        return this.vestRepository.getKategorijaVesti(kategorija);
     }
 }
