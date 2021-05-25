@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Vest {
+    private Integer id;
     private String naslov;
     private String tekst;
     private Date vremeKreiranja;
@@ -28,6 +29,14 @@ public class Vest {
     public Vest() {
         komentari = new ArrayList<>();
         tagovi = new ArrayList<>();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNaslov() {
