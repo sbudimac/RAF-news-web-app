@@ -12,6 +12,10 @@ public class VestService {
     @Inject
     private IVestRepository vestRepository;
 
+    public Vest findVest(Integer id) {
+        return this.vestRepository.findVest(id);
+    }
+
     public Vest dodajVest(Vest vest) {
         return this.vestRepository.dodajVest(vest);
     }
@@ -32,7 +36,7 @@ public class VestService {
         return this.vestRepository.getNajcitanijeVesti();
     }
 
-    public List<Vest> getKategorijaVesti(Kategorija kategorija) {
-        return this.vestRepository.getKategorijaVesti(kategorija);
+    public List<Vest> getKategorijaVesti(Integer kategorijaId) {
+        return this.vestRepository.getKategorijaVesti(kategorijaId);
     }
 }

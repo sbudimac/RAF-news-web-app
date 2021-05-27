@@ -4,12 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tag {
+    private Integer tagId;
     private List<String> reci;
     private List<Vest> vesti;
+
+    public Tag(Integer tagId) {
+        this.tagId = tagId;
+        reci = new ArrayList<>();
+        vesti = new ArrayList<>();
+    }
 
     public Tag() {
         reci = new ArrayList<>();
         vesti = new ArrayList<>();
+    }
+
+    public Integer getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(Integer tagId) {
+        this.tagId = tagId;
     }
 
     public List<String> getReci() {

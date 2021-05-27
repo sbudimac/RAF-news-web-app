@@ -1,8 +1,15 @@
 package com.example.raf_news_projekat.model;
 
 public class Kategorija {
+    private Integer kategorijaId;
     private String ime;
     private String opis;
+
+    public Kategorija(Integer kategorijaId, String ime, String opis) {
+        this.kategorijaId = kategorijaId;
+        this.ime = ime;
+        this.opis = opis;
+    }
 
     public Kategorija(String ime, String opis) {
         this.ime = ime;
@@ -11,6 +18,14 @@ public class Kategorija {
 
     public Kategorija() {
 
+    }
+
+    public Integer getKategorijaId() {
+        return kategorijaId;
+    }
+
+    public void setKategorijaId(Integer kategorijaId) {
+        this.kategorijaId = kategorijaId;
     }
 
     public String getIme() {

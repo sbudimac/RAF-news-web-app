@@ -3,10 +3,19 @@ package com.example.raf_news_projekat.model;
 import java.util.Date;
 
 public class Komentar {
+    private Integer komentarId;
     private String imeAutora;
     private String komentar;
     private Date datumKreiranja;
     private Vest vest;
+
+    public Komentar(Integer komentarId, String imeAutora, String komentar, Date datumKreiranja, Vest vest) {
+        this.komentarId = komentarId;
+        this.imeAutora = imeAutora;
+        this.komentar = komentar;
+        this.datumKreiranja = datumKreiranja;
+        this.vest = vest;
+    }
 
     public Komentar(String imeAutora, String komentar, Date datumKreiranja, Vest vest) {
         this.imeAutora = imeAutora;
@@ -17,6 +26,14 @@ public class Komentar {
 
     public Komentar() {
 
+    }
+
+    public Integer getKomentarId() {
+        return komentarId;
+    }
+
+    public void setKomentarId(Integer komentarId) {
+        this.komentarId = komentarId;
     }
 
     public String getImeAutora() {

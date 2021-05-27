@@ -14,6 +14,38 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
     private static final int BR_NAJCITANIJIH_VESTI = 10;
 
     @Override
+    public Vest findVest(Integer id) {
+        Vest vest = null;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+            preparedStatement = connection.prepareStatement("SELECT * FROM vest WHERE vest_id = ?");
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Integer vestId = resultSet.getInt("vest_id");
+                String naslov = resultSet.getString("naslov");
+                String tekst = resultSet.getString("tekst");
+                Date vremeKreiranja = resultSet.getDate("vreme_kreiranja");
+                Integer brojPoseta = resultSet.getInt("broj_poseta");
+                vest = new Vest(vestId, naslov, tekst, vremeKreiranja, brojPoseta);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(preparedStatement);
+            this.closeResultSet(resultSet);
+            this.closeConnection(connection);
+        }
+
+        return vest;
+    }
+
+    @Override
     public Vest dodajVest(Vest vest) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -31,7 +63,7 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
             resultSet = preparedStatement.getGeneratedKeys();
 
             if (resultSet.next()) {
-                vest.setId(resultSet.getInt(1));
+                vest.setVestId(resultSet.getInt(1));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -140,7 +172,7 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
     }
 
     @Override
-    public List<Vest> getKategorijaVesti(Kategorija kategorija) {
+    public List<Vest> getKategorijaVesti(Integer kategorijaId) {
         List<Vest> vesti = new ArrayList<>();
 
         Connection connection = null;

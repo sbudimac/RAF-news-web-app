@@ -1,4 +1,4 @@
-package com.example.raf_news_projekat.resources;
+package com.example.raf_news_projekat.resources.cms;
 
 import com.example.raf_news_projekat.model.Kategorija;
 import com.example.raf_news_projekat.model.Vest;
@@ -9,8 +9,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("/vesti")
-public class VestResource {
+public class CMSVestResource {
 
     @Inject
     private VestService vestService;
@@ -27,7 +26,7 @@ public class VestResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Vest izmeniVest(@PathParam("vest_id") Integer id, Vest vest) {
-        vest.setId(id);
+        vest.setVestId(id);
         return this.vestService.izmeniVest(vest);
     }
 
@@ -36,23 +35,5 @@ public class VestResource {
     @Produces(MediaType.APPLICATION_JSON)
     public void obrisiVest(@PathParam("vest_id") Integer id) {
         this.vestService.obrisiVest(id);
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Vest> getHomePageVesti() {
-        return this.vestService.getHomePageVesti();
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Vest> getNajcitanijeVesti() {
-        return this.vestService.getNajcitanijeVesti();
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Vest> getKategorijaVesti(Kategorija kategorija) {
-        return this.vestService.getKategorijaVesti(kategorija);
     }
 }

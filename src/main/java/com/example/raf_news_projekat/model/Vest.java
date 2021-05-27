@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Vest {
-    private Integer id;
+    private Integer vestId;
     private String naslov;
     private String tekst;
     private Date vremeKreiranja;
@@ -15,8 +15,8 @@ public class Vest {
     private List<Tag> tagovi;
     private Kategorija kategorija;
 
-    public Vest(Integer id, String naslov, String tekst, Date vremeKreiranja, Integer brojPoseta) {
-        this.id = id;
+    public Vest(Integer vestId, String naslov, String tekst, Date vremeKreiranja, Integer brojPoseta) {
+        this.vestId = vestId;
         this.naslov = naslov;
         this.tekst = tekst;
         this.vremeKreiranja = vremeKreiranja;
@@ -41,12 +41,12 @@ public class Vest {
         tagovi = new ArrayList<>();
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getVestId() {
+        return vestId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setVestId(Integer vestId) {
+        this.vestId = vestId;
     }
 
     public String getNaslov() {
