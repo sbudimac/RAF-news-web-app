@@ -10,4 +10,6 @@ public interface IKategorijaRepository {
     public Kategorija dodajKategoriju(Kategorija kategorija);
     public Kategorija izmeniKategoriju(Kategorija kategorija);
     public void obrisiKategoriju(Integer kategorijaId);
+    public Kategorija findKategorija(String imeKategorije);
+    public Kategorija findKategorija(Integer idKategorije);
 }

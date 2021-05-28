@@ -9,4 +9,6 @@ public interface IKorisnikRepository {
     public List<Korisnik> getKorisnici();
     public Korisnik dodajKorisnika(Korisnik korisnik);
     public Korisnik izmeniKorisnika(Korisnik korisnik);
+    public Korisnik aktivirajKorisnika(Korisnik korisnik);
+    public Korisnik deaktivirajKorisnika(Korisnik korisnik);
 }

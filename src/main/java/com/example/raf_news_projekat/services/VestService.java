@@ -12,6 +12,10 @@ public class VestService {
     @Inject
     private IVestRepository vestRepository;
 
+    public List<Vest> getVesti() {
+        return this.vestRepository.getVesti();
+    }
+
     public Vest findVest(Integer id) {
         return this.vestRepository.findVest(id);
     }

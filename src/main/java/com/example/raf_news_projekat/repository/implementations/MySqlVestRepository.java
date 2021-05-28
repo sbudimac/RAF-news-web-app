@@ -22,7 +22,7 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
 
         try {
             connection = this.newConnection();
-            preparedStatement = connection.prepareStatement("SELECT * FROM vest");
+            preparedStatement = connection.prepareStatement("SELECT * FROM vest ORDER BY vreme_kreiranja DESC");
             resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()) {

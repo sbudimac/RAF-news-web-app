@@ -96,6 +96,44 @@ public class MySqlKorisnikRepository extends MySqlAbstractRepository implements 
         return korisnik;
     }
 
+    @Override
+    public Korisnik aktivirajKorisnika(Korisnik korisnik) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = this.newConnection();
+            preparedStatement = connection.prepareStatement("UPDATE korisnik SET status = ? WHERE korisnik_id = ?");
+            preparedStatement.setString(1, Status.AKTIVAN.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(preparedStatement);
+            this.closeConnection(connection);
+        }
+
+        return korisnik;
+    }
+
+    @Override
+    public Korisnik deaktivirajKorisnika(Korisnik korisnik) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = this.newConnection();
+            preparedStatement = connection.prepareStatement("UPDATE korisnik SET status = ? WHERE korisnik_id = ?");
+            preparedStatement.setString(1, Status.NEAKTIVAN.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(preparedStatement);
+            this.closeConnection(connection);
+        }
+
+        return korisnik;
+    }
+
     private void setKorisnik(Korisnik korisnik, PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setString(1, korisnik.getEmail());
         preparedStatement.setString(2, korisnik.getIme());

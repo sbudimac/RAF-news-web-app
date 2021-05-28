@@ -11,7 +11,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-//@Path("/platforma")
 public class PlatformaVestResource {
 
     @Inject
@@ -38,7 +37,7 @@ public class PlatformaVestResource {
         return this.vestService.getKategorijaVesti(kategorijaId);
     }
 
-    @Path("/vesti/{vest_id}")
+    @Path("/platforma_vesti/{vest_id}")
     public Vest getVest(@PathParam("vest_id") Integer id) {
         return this.vestService.findVest(id);
     }

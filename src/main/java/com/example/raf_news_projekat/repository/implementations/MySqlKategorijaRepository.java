@@ -107,4 +107,60 @@ public class MySqlKategorijaRepository extends MySqlAbstractRepository implement
             this.closeConnection(connection);
         }
     }
+
+    @Override
+    public Kategorija findKategorija(String imeKategorije) {
+        Kategorija kategorija = null;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+            preparedStatement = connection.prepareStatement("SELECT * FROM kategorija WHERE ime = ?");
+            preparedStatement.setString(1, imeKategorije);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Integer kategorijaId = resultSet.getInt("kategorija_id");
+                String ime = resultSet.getString("ime");
+                String opis = resultSet.getString("opis");
+
+                kategorija = new Kategorija(kategorijaId, ime, opis);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return kategorija;
+    }
+
+    @Override
+    public Kategorija findKategorija(Integer idKategorije) {
+        Kategorija kategorija = null;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+            preparedStatement = connection.prepareStatement("SELECT * FROM kategorija WHERE kategorija_id = ?");
+            preparedStatement.setInt(1, idKategorije);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Integer kategorijaId = resultSet.getInt("kategorija_id");
+                String ime = resultSet.getString("ime");
+                String opis = resultSet.getString("opis");
+
+                kategorija = new Kategorija(kategorijaId, ime, opis);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return kategorija;
+    }
 }

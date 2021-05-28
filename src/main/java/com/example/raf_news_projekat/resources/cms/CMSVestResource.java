@@ -9,10 +9,17 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
+@Path("/cms_vesti")
 public class CMSVestResource {
 
     @Inject
     private VestService vestService;
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Vest> getVesti() {
+        return this.vestService.getVesti();
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

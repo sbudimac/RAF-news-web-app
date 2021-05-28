@@ -12,6 +12,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
+@Path("/platforma_kategorije")
 public class PlatformaKategorijaResource {
 
     @Inject
@@ -21,14 +22,8 @@ public class PlatformaKategorijaResource {
     private ResourceContext resourceContext;
 
     @GET
-    @Path("/kategorije")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Kategorija> getKategorije() {
         return this.kategorijaService.getKategorije();
-    }
-
-    @Path("kategorije/{kategorija_id}/kategorija_vesti")
-    public PlatformaVestResource getKategorijaVesti() {
-        return resourceContext.getResource(PlatformaVestResource.class);
     }
 }
