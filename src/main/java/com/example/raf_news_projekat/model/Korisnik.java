@@ -22,7 +22,7 @@ public class Korisnik {
         this.prezime = prezime;
         this.tip = tip;
         this.status = status;
-        this.lozinka = lozinka;
+        this.lozinka = DigestUtils.sha256Hex(lozinka);
     }
 
     public Korisnik(String email, String ime, String prezime, TipKorisnika tip, Status status, String lozinka) {
@@ -31,7 +31,7 @@ public class Korisnik {
         this.prezime = prezime;
         this.tip = tip;
         this.status = status;
-        this.lozinka = lozinka;
+        this.lozinka = DigestUtils.sha256Hex(lozinka);
     }
 
     public Integer getKorisnikId() {

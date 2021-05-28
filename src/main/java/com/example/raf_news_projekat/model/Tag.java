@@ -5,17 +5,16 @@ import java.util.List;
 
 public class Tag {
     private Integer tagId;
-    private List<String> reci;
+    private String reci;
     private List<Vest> vesti;
 
-    public Tag(Integer tagId) {
+    public Tag(Integer tagId, String reci) {
         this.tagId = tagId;
-        reci = new ArrayList<>();
+        this.reci = reci;
         vesti = new ArrayList<>();
     }
 
     public Tag() {
-        reci = new ArrayList<>();
         vesti = new ArrayList<>();
     }
 
@@ -27,11 +26,11 @@ public class Tag {
         this.tagId = tagId;
     }
 
-    public List<String> getReci() {
+    public String getReci() {
         return reci;
     }
 
-    public void setReci(List<String> reci) {
+    public void setReci(String reci) {
         this.reci = reci;
     }
 

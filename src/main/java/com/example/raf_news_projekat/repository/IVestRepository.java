@@ -6,10 +6,11 @@ import com.example.raf_news_projekat.model.Vest;
 import java.util.List;
 
 public interface IVestRepository {
-    public Vest findVest(Integer id);
+    public List<Vest> getVesti();
+    public Vest findVest(Integer vestId);
     public Vest dodajVest(Vest vest);
     public Vest izmeniVest(Vest vest);
-    public void obrisiVest(Integer id);
+    public void obrisiVest(Integer vestId);
     public List<Vest> getHomePageVesti();
     public List<Vest> getNajcitanijeVesti();
     public List<Vest> getKategorijaVesti(Integer kategorijaId);
