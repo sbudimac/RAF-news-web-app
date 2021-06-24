@@ -1,12 +1,19 @@
 package com.example.raf_news_projekat.model;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Kategorija {
     private Integer kategorijaId;
+    @NotNull(message = "ime kategorije ne sme biti null")
+    @NotEmpty(message = "ime kategorije ne sme biti prazno")
     private String ime;
+    @NotNull(message = "opis kategorije ne sme biti null")
+    @NotEmpty(message = "opis kategorije ne sme biti prazno")
     private String opis;
+    @NotNull(message = "vesti ne smeju biti null")
     private List<Vest> vesti;
 
     public Kategorija(Integer kategorijaId, String ime, String opis) {

@@ -54,7 +54,8 @@ public class MySqlKorisnikRepository extends MySqlAbstractRepository implements 
         try {
             connection = this.newConnection();
             preparedStatement = connection.prepareStatement(
-                    "INSERT INTO korisnik (email, ime, prezime, lozinka, tip, status) VALUES (?, ?, ?, ?, ?, ?, ?)"
+                    "INSERT INTO korisnik (email, ime, prezime, lozinka, tip, status) VALUES (?, ?, ?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
             );
             setKorisnik(korisnik, preparedStatement);
             preparedStatement.executeUpdate();

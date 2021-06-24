@@ -39,6 +39,8 @@
           <element id="library" level="project" name="Maven: org.glassfish.hk2:hk2-utils:2.6.1" />
           <element id="library" level="project" name="Maven: org.javassist:javassist:3.25.0-GA" />
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.11" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.25" />
+          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.11.4" />
         </element>
       </element>
       <element id="directory" name="META-INF">

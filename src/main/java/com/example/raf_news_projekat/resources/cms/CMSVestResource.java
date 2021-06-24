@@ -1,6 +1,5 @@
 package com.example.raf_news_projekat.resources.cms;
 
-import com.example.raf_news_projekat.model.Kategorija;
 import com.example.raf_news_projekat.model.Vest;
 import com.example.raf_news_projekat.services.VestService;
 

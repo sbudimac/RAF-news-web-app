@@ -46,7 +46,7 @@ public class MySqlKategorijaRepository extends MySqlAbstractRepository implement
 
         try {
             connection = this.newConnection();
-            preparedStatement = connection.prepareStatement("INSERT INTO kategorija VALUES (?, ?)");
+            preparedStatement = connection.prepareStatement("INSERT INTO kategorija VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, kategorija.getIme());
             preparedStatement.setString(2, kategorija.getOpis());
             preparedStatement.executeUpdate();

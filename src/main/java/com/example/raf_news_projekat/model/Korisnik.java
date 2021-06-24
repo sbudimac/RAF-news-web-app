@@ -2,13 +2,28 @@ package com.example.raf_news_projekat.model;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class Korisnik {
     private Integer korisnikId;
+    @NotNull(message = "email ne sme biti null")
+    @NotEmpty(message = "email ne sme biti prazan")
     private String email;
+    @NotNull(message = "ime ne sme biti null")
+    @NotEmpty(message = "ime ne sme biti prazno")
     private String ime;
+    @NotNull(message = "prezime ne sme biti null")
+    @NotEmpty(message = "prezime ne sme biti prazno")
     private String prezime;
+    @NotNull(message = "tip korisnika ne sme biti null")
+    @NotEmpty(message = "tip korisnika ne sme biti prazan")
     private TipKorisnika tip;
+    @NotNull(message = "status ne sme biti null")
+    @NotEmpty(message = "status ne sme biti prazan")
     private Status status;
+    @NotNull(message = "lozinka ne sme biti null")
+    @NotEmpty(message = "lozinka ne sme biti prazna")
     private String lozinka;
 
     public Korisnik() {

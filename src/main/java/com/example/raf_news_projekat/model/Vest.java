@@ -1,18 +1,34 @@
 package com.example.raf_news_projekat.model;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Vest {
     private Integer vestId;
+    @NotNull(message = "naslov ne sme biti null")
+    @NotEmpty(message = "naslov ne sme biti prazan")
     private String naslov;
+    @NotNull(message = "tekst ne sme biti null")
+    @NotEmpty(message = "tekst ne sme biti prazan")
     private String tekst;
+    @NotNull(message = "vreme kreiranja ne sme biti null")
+    @NotEmpty(message = "vreme kreiranja ne sme biti prazno")
     private Date vremeKreiranja;
+    @NotNull(message = "broj poseta ne sme biti null")
+    @NotEmpty(message = "broj poseta ne sme biti prazan")
     private Integer brojPoseta;
+    @NotNull(message = "autor ne sme biti null")
+    @NotEmpty(message = "autor ne sme biti prazan")
     private Korisnik autor;
+    @NotNull(message = "komentari ne smeju biti null")
     private List<Komentar> komentari;
+    @NotNull(message = "tagovi ne smeju biti null")
     private List<Tag> tagovi;
+    @NotNull(message = "kategorija ne sme biti null")
+    @NotEmpty(message = "kategorija ne sme biti prazna")
     private Kategorija kategorija;
 
     public Vest(Integer vestId, String naslov, String tekst, Date vremeKreiranja, Integer brojPoseta) {

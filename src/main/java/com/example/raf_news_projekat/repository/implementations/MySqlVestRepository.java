@@ -99,17 +99,17 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
         try {
             connection = this.newConnection();
             preparedStatement = connection.prepareStatement(
-                    "INSERT INTO vest (naslov, tekst, vreme_kreiranja, broj_poseta, autor_id, kategorija_id) VALUES (?, ?, ?, ?, ?, ?)"
+                    "INSERT INTO vest (naslov, tekst, vreme_kreiranja, broj_poseta, autor_id, kategorija_id) VALUES (?, ?, ?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
             );
             preparedStatement.setString(1, vest.getNaslov());
             preparedStatement.setString(2, vest.getTekst());
-            preparedStatement.setDate(3, (Date) vest.getVremeKreiranja());
+            preparedStatement.setDate(3, vest.getVremeKreiranja());
             preparedStatement.setInt(4, vest.getBrojPoseta());
             preparedStatement.setInt(5, vest.getAutor().getKorisnikId());
             preparedStatement.setInt(6, vest.getKategorija().getKategorijaId());
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
-
             if (resultSet.next()) {
                 vest.setVestId(resultSet.getInt(1));
             }
@@ -312,7 +312,9 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
                 tagovi.add(new Tag(subResultSet.getInt("tag_id"), subResultSet.getString("reci")));
             }
 
+            assert autor != null;
             vest.setAutor(autor);
+            assert kategorija != null;
             vest.setKategorija(kategorija);
             vest.setTagovi(tagovi);
 

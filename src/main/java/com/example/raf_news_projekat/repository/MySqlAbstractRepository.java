@@ -26,7 +26,7 @@ public abstract class MySqlAbstractRepository {
     }
 
     protected String getDatabaseName() {
-        return "blog_schema";
+        return "raf_news_schema";
     }
 
     protected String getUsername() {

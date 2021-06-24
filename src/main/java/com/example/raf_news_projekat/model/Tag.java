@@ -1,11 +1,16 @@
 package com.example.raf_news_projekat.model;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Tag {
     private Integer tagId;
+    @NotNull(message = "reci ne smeju biti null")
+    @NotEmpty(message = "reci ne smeju biti prazne")
     private String reci;
+    @NotNull(message = "vesti ne smeju biti null")
     private List<Vest> vesti;
 
     public Tag(Integer tagId, String reci) {
