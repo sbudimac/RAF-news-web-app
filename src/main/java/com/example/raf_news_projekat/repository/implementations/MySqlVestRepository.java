@@ -31,8 +31,8 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
                 vest = new Vest(resultSet.getInt("vest_id"),
                                 resultSet.getString("naslov"),
                                 resultSet.getString("tekst"),
-                                resultSet.getDate("vreme_kreiranja"),
                                 resultSet.getInt("broj_poseta"));
+                vest.setVremeKreiranja(resultSet.getDate("vreme_kreiranja"));
 
                 int idAutora = resultSet.getInt("autor_id");
                 int idKategorije = resultSet.getInt("kategorija_id");
@@ -72,7 +72,8 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
                 String tekst = resultSet.getString("tekst");
                 Date vremeKreiranja = resultSet.getDate("vreme_kreiranja");
                 Integer brojPoseta = resultSet.getInt("broj_poseta");
-                vest = new Vest(vestId, naslov, tekst, vremeKreiranja, brojPoseta);
+                vest = new Vest(vestId, naslov, tekst, brojPoseta);
+                vest.setVremeKreiranja(vremeKreiranja);
 
                 int idAutora = resultSet.getInt("autor_id");
                 int idKategorije = resultSet.getInt("kategorija_id");
@@ -182,8 +183,10 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
             connection = this.newConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(
-                    "SELECT * FROM vest ORDER BY vreme_kreiranja DESC FETCH FIRST " + BR_HOME_PAGE_VESTI
+                    "SELECT * FROM vest ORDER BY vreme_kreiranja DESC"
             );
+
+            //"SELECT * FROM vest ORDER BY vreme_kreiranja DESC FETCH FIRST " + BR_HOME_PAGE_VESTI
 
             traverseVesti(vesti, connection, resultSet);
         } catch (SQLException e) {
@@ -259,8 +262,8 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
             vest = new Vest(resultSet.getInt("vest_id"),
                             resultSet.getString("naslov"),
                             resultSet.getString("tekst"),
-                            resultSet.getDate("vreme_kreiranja"),
                             resultSet.getInt("broj_poseta"));
+            vest.setVremeKreiranja(resultSet.getDate("vreme_kreiranja"));
 
             int idAutora = resultSet.getInt("autor_id");
             int idKategorije = resultSet.getInt("kategorija_id");

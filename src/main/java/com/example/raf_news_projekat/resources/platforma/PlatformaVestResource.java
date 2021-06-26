@@ -8,16 +8,21 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.container.ResourceContext;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
+@Path("/platforma_vesti")
 public class PlatformaVestResource {
 
     @Inject
     private VestService vestService;
 
+    @Context
+    private ResourceContext resourceContext;
+
     @GET
-    @Path("/homepage")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Vest> getHomePageVesti() {
         return this.vestService.getHomePageVesti();
@@ -31,13 +36,13 @@ public class PlatformaVestResource {
     }
 
     @GET
-    @Path("/kategorija_vesti")
+    @Path("/{kategorija_id}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Vest> getKategorijaVesti(@PathParam("kategorija_id") Integer kategorijaId) {
         return this.vestService.getKategorijaVesti(kategorijaId);
     }
 
-    @Path("/platforma_vesti/{vest_id}")
+    @Path("/{vest_id}")
     public Vest getVest(@PathParam("vest_id") Integer id) {
         return this.vestService.findVest(id);
     }

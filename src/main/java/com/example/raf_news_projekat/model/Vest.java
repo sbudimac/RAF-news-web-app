@@ -31,20 +31,20 @@ public class Vest {
     @NotEmpty(message = "kategorija ne sme biti prazna")
     private Kategorija kategorija;
 
-    public Vest(Integer vestId, String naslov, String tekst, Date vremeKreiranja, Integer brojPoseta) {
+    public Vest(Integer vestId, String naslov, String tekst, Integer brojPoseta) {
         this.vestId = vestId;
         this.naslov = naslov;
         this.tekst = tekst;
-        this.vremeKreiranja = vremeKreiranja;
+        this.vremeKreiranja = new Date(System.currentTimeMillis());
         this.brojPoseta = brojPoseta;
         komentari = new ArrayList<>();
         tagovi = new ArrayList<>();
     }
 
-    public Vest(String naslov, String tekst, Date vremeKreiranja, Integer brojPoseta, Korisnik autor, Kategorija kategorija) {
+    public Vest(String naslov, String tekst, Integer brojPoseta, Korisnik autor, Kategorija kategorija) {
         this.naslov = naslov;
         this.tekst = tekst;
-        this.vremeKreiranja = vremeKreiranja;
+        this.vremeKreiranja = new Date(System.currentTimeMillis());
         this.brojPoseta = brojPoseta;
         this.autor = autor;
         this.kategorija = kategorija;

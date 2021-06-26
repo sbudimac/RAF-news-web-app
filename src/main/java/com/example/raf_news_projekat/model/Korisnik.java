@@ -37,7 +37,7 @@ public class Korisnik {
         this.prezime = prezime;
         this.tip = tip;
         this.status = status;
-        this.lozinka = DigestUtils.sha256Hex(lozinka);
+        this.lozinka = lozinka;
     }
 
     public Korisnik(String email, String ime, String prezime, TipKorisnika tip, Status status, String lozinka) {
@@ -46,7 +46,7 @@ public class Korisnik {
         this.prezime = prezime;
         this.tip = tip;
         this.status = status;
-        this.lozinka = DigestUtils.sha256Hex(lozinka);
+        this.lozinka = lozinka;
     }
 
     public Integer getKorisnikId() {
@@ -102,6 +102,10 @@ public class Korisnik {
     }
 
     public void setLozinka(String lozinka) {
-        this.lozinka = DigestUtils.sha256Hex(lozinka);
+        this.lozinka = lozinka;
+    }
+
+    public String getLozinkaHash() {
+        return DigestUtils.sha256Hex(this.lozinka);
     }
 }

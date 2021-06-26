@@ -46,6 +46,42 @@ public class MySqlKorisnikRepository extends MySqlAbstractRepository implements 
     }
 
     @Override
+    public Korisnik findKorisnik(String korisnikEmail) {
+        Korisnik korisnik = null;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+            preparedStatement = connection.prepareStatement("SELECT * FROM korisnik WHERE email LIKE ?");
+            preparedStatement.setString(1, korisnikEmail);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Integer korisnikId = resultSet.getInt("korisnik_id");
+                String email = resultSet.getString("email");
+                String ime = resultSet.getString("ime");
+                String prezime = resultSet.getString("prezime");
+                String lozinka = resultSet.getString("lozinka");
+                String tip = resultSet.getString("tip");
+                String status = resultSet.getString("status");
+
+                korisnik = new Korisnik(korisnikId, email, ime, prezime, TipKorisnika.valueOf(tip), Status.valueOf(status), lozinka);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(preparedStatement);
+            this.closeResultSet(resultSet);
+            this.closeConnection(connection);
+        }
+
+        return korisnik;
+    }
+
+    @Override
     public Korisnik dodajKorisnika(Korisnik korisnik) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -76,7 +112,7 @@ public class MySqlKorisnikRepository extends MySqlAbstractRepository implements 
     }
 
     @Override
-    public Korisnik izmeniKorisnika(Korisnik korisnik) {
+    public Korisnik izmeniKorisnika(Integer id, Korisnik korisnik) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -86,6 +122,8 @@ public class MySqlKorisnikRepository extends MySqlAbstractRepository implements 
                     "UPDATE korisnik SET email = ?, ime = ?, prezime = ?, lozinka = ?, tip = ?, status = ? WHERE korisnik_id = ?"
             );
             setKorisnik(korisnik, preparedStatement);
+            korisnik.setKorisnikId(id);
+            preparedStatement.setInt(7, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -98,7 +136,7 @@ public class MySqlKorisnikRepository extends MySqlAbstractRepository implements 
     }
 
     @Override
-    public Korisnik aktivirajKorisnika(Korisnik korisnik) {
+    public Korisnik aktivirajKorisnika(Integer id, Korisnik korisnik) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -106,6 +144,7 @@ public class MySqlKorisnikRepository extends MySqlAbstractRepository implements 
             connection = this.newConnection();
             preparedStatement = connection.prepareStatement("UPDATE korisnik SET status = ? WHERE korisnik_id = ?");
             preparedStatement.setString(1, Status.AKTIVAN.toString());
+            preparedStatement.setInt(2, id);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -117,7 +156,7 @@ public class MySqlKorisnikRepository extends MySqlAbstractRepository implements 
     }
 
     @Override
-    public Korisnik deaktivirajKorisnika(Korisnik korisnik) {
+    public Korisnik deaktivirajKorisnika(Integer id, Korisnik korisnik) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -125,6 +164,7 @@ public class MySqlKorisnikRepository extends MySqlAbstractRepository implements 
             connection = this.newConnection();
             preparedStatement = connection.prepareStatement("UPDATE korisnik SET status = ? WHERE korisnik_id = ?");
             preparedStatement.setString(1, Status.NEAKTIVAN.toString());
+            preparedStatement.setInt(2, id);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -133,6 +173,24 @@ public class MySqlKorisnikRepository extends MySqlAbstractRepository implements 
         }
 
         return korisnik;
+    }
+
+    @Override
+    public void obrisiKorisnika(Integer korisnikId) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = this.newConnection();
+            preparedStatement = connection.prepareStatement("DELETE FROM korisnik WHERE korisnik_id = ?");
+            preparedStatement.setInt(1, korisnikId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+            this.closeStatement(preparedStatement);
+        }
     }
 
     private void setKorisnik(Korisnik korisnik, PreparedStatement preparedStatement) throws SQLException {

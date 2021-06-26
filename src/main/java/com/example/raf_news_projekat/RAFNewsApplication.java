@@ -36,7 +36,7 @@ public class RAFNewsApplication extends ResourceConfig {
         };
         register(binder);
 
-        packages("com.example.raf_news_projekat.resources");
+        packages("com.example.raf_news_projekat");
     }
 
 }
