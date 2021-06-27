@@ -63,7 +63,7 @@ public class KorisnikService {
                 .withIssuedAt(issuedAt)
                 .withExpiresAt(expiresAt)
                 .withSubject(email)
-                .withClaim("role", korisnik.getTip().toString())
+                .withClaim("tip", korisnik.getTip().toString())
                 .sign(algorithm);
     }
 

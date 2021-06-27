@@ -2,7 +2,7 @@ package com.example.raf_news_projekat.model;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.sql.Date;
 
 public class Komentar {
     private Integer komentarId;
@@ -18,6 +18,12 @@ public class Komentar {
     @NotNull(message = "vest ne sme biti null")
     @NotEmpty(message = "vest ne sme biti prazna")
     private Vest vest;
+
+    public Komentar(String imeAutora, String komentar, Date datumKreiranja) {
+        this.imeAutora = imeAutora;
+        this.komentar = komentar;
+        this.datumKreiranja = datumKreiranja;
+    }
 
     public Komentar(Integer komentarId, String imeAutora, String komentar, Date datumKreiranja, Vest vest) {
         this.komentarId = komentarId;

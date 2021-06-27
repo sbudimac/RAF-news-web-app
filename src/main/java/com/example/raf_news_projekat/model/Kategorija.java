@@ -13,7 +13,6 @@ public class Kategorija {
     @NotNull(message = "opis kategorije ne sme biti null")
     @NotEmpty(message = "opis kategorije ne sme biti prazno")
     private String opis;
-    @NotNull(message = "vesti ne smeju biti null")
     private List<Vest> vesti;
 
     public Kategorija(Integer kategorijaId, String ime, String opis) {

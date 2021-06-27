@@ -1,13 +1,12 @@
 package com.example.raf_news_projekat.resources.platforma;
 
+import com.example.raf_news_projekat.model.Komentar;
 import com.example.raf_news_projekat.model.Vest;
+import com.example.raf_news_projekat.services.KomentarService;
 import com.example.raf_news_projekat.services.VestService;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -18,6 +17,8 @@ public class PlatformaVestResource {
 
     @Inject
     private VestService vestService;
+    @Inject
+    private KomentarService komentarService;
 
     @Context
     private ResourceContext resourceContext;
@@ -43,8 +44,23 @@ public class PlatformaVestResource {
         return this.vestService.getKategorijaVesti(kategorijaId);
     }
 
+    @GET
     @Path("/{vest_id}")
     public Vest getVest(@PathParam("vest_id") Integer id) {
         return this.vestService.findVest(id);
+    }
+
+    @GET
+    @Path("/{vest_id}/komentari")
+    public List<Komentar> getVestKomentari(@PathParam("vest_id") Integer id) {
+        return this.komentarService.getVestKomentari(id);
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{vest_id}")
+    public Komentar dodajKomentar(Komentar komentar, @PathParam("vest_id") Integer id) {
+        return this.komentarService.dodajKomentar(komentar, id);
     }
 }
