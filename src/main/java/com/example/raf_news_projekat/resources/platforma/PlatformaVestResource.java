@@ -23,6 +23,7 @@ public class PlatformaVestResource {
     private ResourceContext resourceContext;
 
     @GET
+    @Path("/homepage")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Vest> getHomePageVesti() {
         return this.vestService.getHomePageVesti();

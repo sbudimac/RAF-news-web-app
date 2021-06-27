@@ -30,7 +30,7 @@ public class CMSKategorijaResource {
     }
 
     @DELETE
-    @Path("{/kategorija_id}")
+    @Path("/{kategorija_id}")
     @Produces(MediaType.APPLICATION_JSON)
     public void obrisiKategoriju(@PathParam("kategorija_id") Integer id) {
         this.kategorijaService.obrisiKategoriju(id);

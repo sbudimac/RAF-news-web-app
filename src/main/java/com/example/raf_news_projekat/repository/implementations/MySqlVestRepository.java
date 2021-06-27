@@ -25,22 +25,7 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
             preparedStatement = connection.prepareStatement("SELECT * FROM vest ORDER BY vreme_kreiranja DESC");
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
-                Vest vest = null;
-
-                vest = new Vest(resultSet.getInt("vest_id"),
-                                resultSet.getString("naslov"),
-                                resultSet.getString("tekst"),
-                                resultSet.getInt("broj_poseta"));
-                vest.setVremeKreiranja(resultSet.getDate("vreme_kreiranja"));
-
-                int idAutora = resultSet.getInt("autor_id");
-                int idKategorije = resultSet.getInt("kategorija_id");
-
-                completeVest(connection, preparedStatement, vest, idAutora, idKategorije);
-
-                vesti.add(vest);
-            }
+            traverseVesti(vesti, connection, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -176,23 +161,20 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
         List<Vest> vesti = new ArrayList<>();
 
         Connection connection = null;
-        Statement statement = null;
+        PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
         try {
             connection = this.newConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(
-                    "SELECT * FROM vest ORDER BY vreme_kreiranja DESC"
-            );
-
-            //"SELECT * FROM vest ORDER BY vreme_kreiranja DESC FETCH FIRST " + BR_HOME_PAGE_VESTI
+            preparedStatement = connection.prepareStatement("SELECT * FROM vest ORDER BY vreme_kreiranja DESC LIMIT ?");
+            preparedStatement.setInt(1, BR_HOME_PAGE_VESTI);
+            resultSet = preparedStatement.executeQuery();
 
             traverseVesti(vesti, connection, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            this.closeStatement(statement);
+            this.closeStatement(preparedStatement);
             this.closeResultSet(resultSet);
             this.closeConnection(connection);
         }
@@ -205,21 +187,22 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
         List<Vest> vesti = new ArrayList<>();
 
         Connection connection = null;
-        Statement statement = null;
+        PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
         try {
             connection = this.newConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(
-                    "SELECT * FROM vest ORDER BY broj_poseta DESC FETCH FIRST " + BR_NAJCITANIJIH_VESTI
+            preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM vest WHERE DATE_SUB(CURRENT_DATE , INTERVAL 30 DAY) > vreme_kreiranja ORDER BY broj_poseta DESC LIMIT ?"
             );
+            preparedStatement.setInt(1, BR_NAJCITANIJIH_VESTI);
+            resultSet = preparedStatement.executeQuery();
 
             traverseVesti(vesti, connection, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            this.closeStatement(statement);
+            this.closeStatement(preparedStatement);
             this.closeResultSet(resultSet);
             this.closeConnection(connection);
         }
