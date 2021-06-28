@@ -17,7 +17,7 @@ public class Komentar {
     private Date datumKreiranja;
     @NotNull(message = "vest ne sme biti null")
     @NotEmpty(message = "vest ne sme biti prazna")
-    private Vest vest;
+    private Integer vestId;
 
     public Komentar(String imeAutora, String komentar, Date datumKreiranja) {
         this.imeAutora = imeAutora;
@@ -25,19 +25,19 @@ public class Komentar {
         this.datumKreiranja = datumKreiranja;
     }
 
-    public Komentar(Integer komentarId, String imeAutora, String komentar, Date datumKreiranja, Vest vest) {
+    public Komentar(Integer komentarId, String imeAutora, String komentar, Date datumKreiranja, Integer vestId) {
         this.komentarId = komentarId;
         this.imeAutora = imeAutora;
         this.komentar = komentar;
         this.datumKreiranja = datumKreiranja;
-        this.vest = vest;
+        this.vestId = vestId;
     }
 
-    public Komentar(String imeAutora, String komentar, Date datumKreiranja, Vest vest) {
+    public Komentar(String imeAutora, String komentar, Date datumKreiranja, Integer vestId) {
         this.imeAutora = imeAutora;
         this.komentar = komentar;
         this.datumKreiranja = datumKreiranja;
-        this.vest = vest;
+        this.vestId = vestId;
     }
 
     public Komentar() {
@@ -76,11 +76,11 @@ public class Komentar {
         this.datumKreiranja = datumKreiranja;
     }
 
-    public Vest getVest() {
-        return vest;
+    public Integer getVestId() {
+        return vestId;
     }
 
-    public void setVest(Vest vest) {
-        this.vest = vest;
+    public void setVestId(Integer vestId) {
+        this.vestId = vestId;
     }
 }

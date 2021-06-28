@@ -52,18 +52,16 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                Integer vestId = resultSet.getInt("vest_id");
                 String naslov = resultSet.getString("naslov");
                 String tekst = resultSet.getString("tekst");
                 Date vremeKreiranja = resultSet.getDate("vreme_kreiranja");
                 Integer brojPoseta = resultSet.getInt("broj_poseta");
-                vest = new Vest(vestId, naslov, tekst, brojPoseta);
+                Integer autorId = resultSet.getInt("autor_id");
+                Integer kategorijaId = resultSet.getInt("kategorija_id");
+                vest = new Vest(naslov, tekst, vremeKreiranja, brojPoseta, autorId, kategorijaId);
                 vest.setVremeKreiranja(vremeKreiranja);
 
-                int idAutora = resultSet.getInt("autor_id");
-                int idKategorije = resultSet.getInt("kategorija_id");
-
-                completeVest(connection, preparedStatement, vest, idAutora, idKategorije);
+                //completeVest(connection, preparedStatement, vest, idAutora, idKategorije);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -92,8 +90,8 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
             preparedStatement.setString(2, vest.getTekst());
             preparedStatement.setDate(3, vest.getVremeKreiranja());
             preparedStatement.setInt(4, vest.getBrojPoseta());
-            preparedStatement.setInt(5, vest.getAutor().getKorisnikId());
-            preparedStatement.setInt(6, vest.getKategorija().getKategorijaId());
+            preparedStatement.setInt(5, vest.getAutorId());
+            preparedStatement.setInt(6, vest.getKategorijaId());
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -121,12 +119,13 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
         try {
             connection = this.newConnection();
             preparedStatement = connection.prepareStatement(
-                    "UPDATE vest SET naslov = ?, tekst = ?, vreme_kreiranja = ?, broj_poseta = ?"
+                    "UPDATE vest SET naslov = ?, tekst = ?, vreme_kreiranja = ?, broj_poseta = ?, kategorija_id = ?"
             );
             preparedStatement.setString(1, vest.getNaslov());
             preparedStatement.setString(2, vest.getTekst());
-            preparedStatement.setDate(3, (Date) vest.getVremeKreiranja());
+            preparedStatement.setDate(3, vest.getVremeKreiranja());
             preparedStatement.setInt(4, vest.getBrojPoseta());
+            preparedStatement.setInt(5, vest.getKategorijaId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -193,7 +192,7 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
         try {
             connection = this.newConnection();
             preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM vest WHERE DATE_SUB(CURRENT_DATE , INTERVAL 30 DAY) > vreme_kreiranja ORDER BY broj_poseta DESC LIMIT ?"
+                    "SELECT * FROM vest WHERE DATE(vreme_kreiranja) >= DATE(NOW()) - INTERVAL 1 DAY ORDER BY broj_poseta DESC LIMIT ?"
             );
             preparedStatement.setInt(1, BR_NAJCITANIJIH_VESTI);
             resultSet = preparedStatement.executeQuery();
@@ -247,17 +246,16 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
                             resultSet.getString("tekst"),
                             resultSet.getInt("broj_poseta"));
             vest.setVremeKreiranja(resultSet.getDate("vreme_kreiranja"));
+            vest.setAutorId(resultSet.getInt("autor_id"));
+            vest.setKategorijaId(resultSet.getInt("kategorija_id"));
 
-            int idAutora = resultSet.getInt("autor_id");
-            int idKategorije = resultSet.getInt("kategorija_id");
-
-            completeVest(connection, null, vest, idAutora, idKategorije);
+            //completeVest(connection, null, vest, idAutora, idKategorije);
 
             vesti.add(vest);
         }
     }
 
-    private void completeVest(Connection connection, PreparedStatement preparedStatement, Vest vest, int idAutora, int idKategorije) {
+    /*private void completeVest(Connection connection, PreparedStatement preparedStatement, Integer vestId, Integer autorId, Integer kategorijaId) {
         ResultSet subResultSet = null;
 
         try{
@@ -309,5 +307,5 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
         } finally {
             this.closeResultSet(subResultSet);
         }
-    }
+    }*/
 }

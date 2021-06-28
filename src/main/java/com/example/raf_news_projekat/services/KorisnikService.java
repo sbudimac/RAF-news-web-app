@@ -22,6 +22,10 @@ public class KorisnikService {
         return this.korisnikRepository.getKorisnici();
     }
 
+    public Korisnik findKorisnik(String email) {
+        return this.korisnikRepository.findKorisnik(email);
+    }
+
     public Korisnik dodajKorisnika(Korisnik korisnik) {
         return this.korisnikRepository.dodajKorisnika(korisnik);
     }
@@ -63,7 +67,11 @@ public class KorisnikService {
                 .withIssuedAt(issuedAt)
                 .withExpiresAt(expiresAt)
                 .withSubject(email)
+                .withClaim("korisnikId", korisnik.getKorisnikId())
+                .withClaim("ime", korisnik.getIme())
+                .withClaim("prezime", korisnik.getPrezime())
                 .withClaim("tip", korisnik.getTip().toString())
+                .withClaim("status", korisnik.getStatus().toString())
                 .sign(algorithm);
     }
 

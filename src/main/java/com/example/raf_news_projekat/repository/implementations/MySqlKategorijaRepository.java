@@ -129,7 +129,7 @@ public class MySqlKategorijaRepository extends MySqlAbstractRepository implement
 
                 kategorija = new Kategorija(kategorijaId, ime, opis);
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

@@ -20,6 +20,13 @@ public class CMSKorisnikResource {
         return this.korisnikService.getKorisnici();
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{email}")
+    public Korisnik findKorisnik(@PathParam("email") String email){
+        return this.korisnikService.findKorisnik(email);
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

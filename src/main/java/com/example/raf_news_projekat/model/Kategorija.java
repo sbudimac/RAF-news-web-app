@@ -13,7 +13,7 @@ public class Kategorija {
     @NotNull(message = "opis kategorije ne sme biti null")
     @NotEmpty(message = "opis kategorije ne sme biti prazno")
     private String opis;
-    private List<Vest> vesti;
+    private List<Integer> vesti;
 
     public Kategorija(Integer kategorijaId, String ime, String opis) {
         this.kategorijaId = kategorijaId;
@@ -56,11 +56,11 @@ public class Kategorija {
         this.opis = opis;
     }
 
-    public List<Vest> getVesti() {
+    public List<Integer> getVesti() {
         return vesti;
     }
 
-    public void setVesti(List<Vest> vesti) {
+    public void setVesti(List<Integer> vesti) {
         this.vesti = vesti;
     }
 }

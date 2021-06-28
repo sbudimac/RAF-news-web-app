@@ -22,14 +22,14 @@ public class Vest {
     private Integer brojPoseta;
     @NotNull(message = "autor ne sme biti null")
     @NotEmpty(message = "autor ne sme biti prazan")
-    private Korisnik autor;
+    private Integer autorId;
     @NotNull(message = "komentari ne smeju biti null")
-    private List<Komentar> komentari;
+    private List<Integer> komentari;
     @NotNull(message = "tagovi ne smeju biti null")
-    private List<Tag> tagovi;
+    private List<String> tagovi;
     @NotNull(message = "kategorija ne sme biti null")
     @NotEmpty(message = "kategorija ne sme biti prazna")
-    private Kategorija kategorija;
+    private Integer kategorijaId;
 
     public Vest(Integer vestId, String naslov, String tekst, Integer brojPoseta) {
         this.vestId = vestId;
@@ -41,13 +41,13 @@ public class Vest {
         tagovi = new ArrayList<>();
     }
 
-    public Vest(String naslov, String tekst, Integer brojPoseta, Korisnik autor, Kategorija kategorija) {
+    public Vest(String naslov, String tekst, Date vremeKreiranja, Integer brojPoseta, Integer autorId, Integer kategorijaId) {
         this.naslov = naslov;
         this.tekst = tekst;
-        this.vremeKreiranja = new Date(System.currentTimeMillis());
+        this.vremeKreiranja = vremeKreiranja;
         this.brojPoseta = brojPoseta;
-        this.autor = autor;
-        this.kategorija = kategorija;
+        this.autorId = autorId;
+        this.kategorijaId = kategorijaId;
         komentari = new ArrayList<>();
         tagovi = new ArrayList<>();
     }
@@ -97,35 +97,35 @@ public class Vest {
         this.brojPoseta = brojPoseta;
     }
 
-    public Korisnik getAutor() {
-        return autor;
+    public Integer getAutorId() {
+        return autorId;
     }
 
-    public void setAutor(Korisnik autor) {
-        this.autor = autor;
+    public void setAutorId(Integer autorId) {
+        this.autorId = autorId;
     }
 
-    public List<Komentar> getKomentari() {
+    public List<Integer> getKomentari() {
         return komentari;
     }
 
-    public void setKomentari(List<Komentar> komentari) {
+    public void setKomentari(List<Integer> komentari) {
         this.komentari = komentari;
     }
 
-    public List<Tag> getTagovi() {
+    public List<String> getTagovi() {
         return tagovi;
     }
 
-    public void setTagovi(List<Tag> tagovi) {
+    public void setTagovi(List<String> tagovi) {
         this.tagovi = tagovi;
     }
 
-    public Kategorija getKategorija() {
-        return kategorija;
+    public Integer getKategorijaId() {
+        return kategorijaId;
     }
 
-    public void setKategorija(Kategorija kategorija) {
-        this.kategorija = kategorija;
+    public void setKategorijaId(Integer kategorijaId) {
+        this.kategorijaId = kategorijaId;
     }
 }

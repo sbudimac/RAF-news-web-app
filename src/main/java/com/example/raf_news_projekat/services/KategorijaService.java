@@ -34,4 +34,12 @@ public class KategorijaService {
         }
         this.kategorijaRepository.obrisiKategoriju(kategorijaId);
     }
+
+    public Kategorija findKategorija(String imeKategorije) {
+        return this.kategorijaRepository.findKategorija(imeKategorije);
+    }
+
+    public Kategorija findKategorija(Integer kategorijaId) {
+        return this.kategorijaRepository.findKategorija(kategorijaId);
+    }
 }

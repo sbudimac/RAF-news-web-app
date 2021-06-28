@@ -35,4 +35,18 @@ public class CMSKategorijaResource {
     public void obrisiKategoriju(@PathParam("kategorija_id") Integer id) {
         this.kategorijaService.obrisiKategoriju(id);
     }
+
+    @GET
+    @Path("/{ime_kategorije}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Kategorija findKategorija(@PathParam("ime_kategorije") String imeKategorije) {
+        return this.kategorijaService.findKategorija(imeKategorije);
+    }
+
+    @GET
+    @Path("/id/{kategorija_id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Kategorija fundKategorija(@PathParam("kategorija_id") Integer id) {
+        return this.kategorijaService.findKategorija(id);
+    }
 }
