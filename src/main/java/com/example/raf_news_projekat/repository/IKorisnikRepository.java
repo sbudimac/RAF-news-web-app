@@ -7,6 +7,7 @@ import java.util.List;
 public interface IKorisnikRepository {
 
     public List<Korisnik> getKorisnici();
+    public Korisnik getKorisnik(Integer id);
     public Korisnik findKorisnik(String email);
     public Korisnik dodajKorisnika(Korisnik korisnik);
     public Korisnik izmeniKorisnika(Integer id, Korisnik korisnik);

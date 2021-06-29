@@ -26,6 +26,10 @@ public class KorisnikService {
         return this.korisnikRepository.findKorisnik(email);
     }
 
+    public Korisnik getKorisnik(Integer id) {
+        return this.korisnikRepository.getKorisnik(id);
+    }
+
     public Korisnik dodajKorisnika(Korisnik korisnik) {
         return this.korisnikRepository.dodajKorisnika(korisnik);
     }

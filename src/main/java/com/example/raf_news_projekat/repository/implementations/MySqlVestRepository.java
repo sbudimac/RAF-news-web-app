@@ -83,15 +83,14 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
         try {
             connection = this.newConnection();
             preparedStatement = connection.prepareStatement(
-                    "INSERT INTO vest (naslov, tekst, vreme_kreiranja, broj_poseta, autor_id, kategorija_id) VALUES (?, ?, ?, ?, ?, ?)",
+                    "INSERT INTO vest (naslov, tekst, vreme_kreiranja, broj_poseta, autor_id, kategorija_id) VALUES (?, ?, CURRENT_TIMESTAMP(), ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS
             );
             preparedStatement.setString(1, vest.getNaslov());
             preparedStatement.setString(2, vest.getTekst());
-            preparedStatement.setDate(3, vest.getVremeKreiranja());
-            preparedStatement.setInt(4, vest.getBrojPoseta());
-            preparedStatement.setInt(5, vest.getAutorId());
-            preparedStatement.setInt(6, vest.getKategorijaId());
+            preparedStatement.setInt(3, vest.getBrojPoseta());
+            preparedStatement.setInt(4, vest.getAutorId());
+            preparedStatement.setInt(5, vest.getKategorijaId());
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -237,6 +236,35 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
         return vesti;
     }
 
+    @Override
+    public List<Vest> searchVesti(String search) {
+        List<Vest> vesti = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+            preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM vest WHERE naslov LIKE '%' ? '%' OR tekst LIKE '%' ? '%'"
+            );
+            preparedStatement.setString(1, search);
+            preparedStatement.setString(2, search);
+            resultSet = preparedStatement.executeQuery();
+
+            traverseVesti(vesti, connection, resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(preparedStatement);
+            this.closeResultSet(resultSet);
+            this.closeConnection(connection);
+        }
+
+        return vesti;
+    }
+
     private void traverseVesti(List<Vest> vesti, Connection connection, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             Vest vest = null;
@@ -248,8 +276,6 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
             vest.setVremeKreiranja(resultSet.getDate("vreme_kreiranja"));
             vest.setAutorId(resultSet.getInt("autor_id"));
             vest.setKategorijaId(resultSet.getInt("kategorija_id"));
-
-            //completeVest(connection, null, vest, idAutora, idKategorije);
 
             vesti.add(vest);
         }

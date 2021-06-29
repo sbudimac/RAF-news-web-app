@@ -43,4 +43,8 @@ public class VestService {
     public List<Vest> getKategorijaVesti(Integer kategorijaId) {
         return this.vestRepository.getKategorijaVesti(kategorijaId);
     }
+
+    public List<Vest> searchVesti(String search) {
+        return this.vestRepository.searchVesti(search);
+    }
 }

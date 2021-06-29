@@ -45,9 +45,17 @@ public class PlatformaVestResource {
     }
 
     @GET
-    @Path("/{vest_id}")
+    @Path("vesti/{vest_id}")
+    @Produces(MediaType.APPLICATION_JSON)
     public Vest getVest(@PathParam("vest_id") Integer id) {
         return this.vestService.findVest(id);
+    }
+
+    @GET
+    @Path("/search/{search}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Vest> searchVesti(@PathParam("search") String search) {
+        return this.vestService.searchVesti(search);
     }
 
     @GET
