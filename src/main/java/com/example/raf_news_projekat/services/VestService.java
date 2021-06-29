@@ -60,4 +60,8 @@ public class VestService {
     public List<Vest> searchVesti(String search) {
         return this.vestRepository.searchVesti(search);
     }
+
+    public void posetaVesti(Integer vestId, Integer brojPoseta) {
+        this.vestRepository.posetaVesti(vestId, brojPoseta);
+    }
 }

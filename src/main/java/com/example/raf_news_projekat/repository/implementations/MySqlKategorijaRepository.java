@@ -94,9 +94,19 @@ public class MySqlKategorijaRepository extends MySqlAbstractRepository implement
     public void obrisiKategoriju(Integer kategorijaId) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             connection = this.newConnection();
+            preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM vest WHERE kategorija_id = ?");
+            preparedStatement.setInt(1, kategorijaId);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int br = resultSet.getInt(1);
+                if (br > 0) {
+                    throw new SQLException();
+                }
+            }
             preparedStatement = connection.prepareStatement("DELETE FROM kategorija WHERE kategorija_id = ?");
             preparedStatement.setInt(1, kategorijaId);
             preparedStatement.executeUpdate();

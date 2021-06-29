@@ -17,4 +17,5 @@ public interface IVestRepository {
     public List<Vest> getNajcitanijeVesti();
     public List<Vest> getKategorijaVesti(Integer kategorijaId);
     public List<Vest> searchVesti(String search);
+    public void posetaVesti(Integer vestId, Integer brojPoseta);
 }

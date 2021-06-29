@@ -390,6 +390,25 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
         return vesti;
     }
 
+    @Override
+    public void posetaVesti(Integer vestId, Integer brojPoseta) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = this.newConnection();
+            preparedStatement = connection.prepareStatement("UPDATE vest SET broj_poseta = ? WHERE vest_id = ?");
+            preparedStatement.setInt(1, brojPoseta);
+            preparedStatement.setInt(2, vestId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(preparedStatement);
+            this.closeConnection(connection);
+        }
+    }
+
     private void traverseVesti(List<Vest> vesti, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             Vest vest = new Vest(resultSet.getInt("vest_id"),

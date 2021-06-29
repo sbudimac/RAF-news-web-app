@@ -85,4 +85,12 @@ public class PlatformaVestResource {
     public List<Vest> getTagVesti(@PathParam("tag_rec") String rec) {
         return this.vestService.getTagVesti(rec);
     }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{vest_id}/{broj_poseta}")
+    public void posetaVesti(@PathParam("vest_id") Integer vestId, @PathParam("broj_poseta") Integer brojPoseta) {
+        this.vestService.posetaVesti(vestId, brojPoseta);
+    }
 }
