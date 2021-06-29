@@ -29,8 +29,8 @@ public class VestService {
         return this.vestRepository.getVestTagovi(vestId);
     }
 
-    public List<Vest> getTagVesti(Integer tagId) {
-        return this.vestRepository.getTagVesti(tagId);
+    public List<Vest> getTagVesti(String rec) {
+        return this.vestRepository.getTagVesti(rec);
     }
 
     public Tag dodajTag(Tag tag, Integer vestId) {

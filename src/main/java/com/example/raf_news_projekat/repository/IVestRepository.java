@@ -9,7 +9,7 @@ public interface IVestRepository {
     public Vest findVest(Integer vestId);
     public Vest dodajVest(Vest vest);
     public List<Tag> getVestTagovi(Integer vestId);
-    public List<Vest> getTagVesti(Integer tagId);
+    public List<Vest> getTagVesti(String rec);
     public Tag dodajTag(Tag tag, Integer vestId);
     public Vest izmeniVest(Vest vest);
     public void obrisiVest(Integer vestId);

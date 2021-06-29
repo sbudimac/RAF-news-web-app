@@ -38,16 +38,12 @@ public class KorisnikService {
         return this.korisnikRepository.izmeniKorisnika(id, korisnik);
     }
 
-    public Korisnik aktivirajKorisnika(Integer id, Korisnik korisnik) {
-        if (!korisnik.getTip().equals(TipKorisnika.CONTENT_CREATOR)) {
-            System.out.println("Korisnik nije content creator!");
-            return null;
-        }
-        return this.korisnikRepository.aktivirajKorisnika(id, korisnik);
+    public void aktivirajKorisnika(Integer id) {
+        this.korisnikRepository.aktivirajKorisnika(id);
     }
 
-    public Korisnik deaktivirajKorisnika(Integer id, Korisnik korisnik) {
-        return this.korisnikRepository.deaktivirajKorisnika(id, korisnik);
+    public void deaktivirajKorisnika(Integer id) {
+        this.korisnikRepository.deaktivirajKorisnika(id);
     }
 
     public void obrisiKorisnika(Integer korisnikId) {

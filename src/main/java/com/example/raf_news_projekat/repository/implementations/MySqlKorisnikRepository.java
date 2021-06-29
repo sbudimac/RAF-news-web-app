@@ -172,7 +172,7 @@ public class MySqlKorisnikRepository extends MySqlAbstractRepository implements 
     }
 
     @Override
-    public Korisnik aktivirajKorisnika(Integer id, Korisnik korisnik) {
+    public void aktivirajKorisnika(Integer id) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -181,18 +181,17 @@ public class MySqlKorisnikRepository extends MySqlAbstractRepository implements 
             preparedStatement = connection.prepareStatement("UPDATE korisnik SET status = ? WHERE korisnik_id = ?");
             preparedStatement.setString(1, Status.AKTIVAN.toString());
             preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             this.closeStatement(preparedStatement);
             this.closeConnection(connection);
         }
-
-        return korisnik;
     }
 
     @Override
-    public Korisnik deaktivirajKorisnika(Integer id, Korisnik korisnik) {
+    public void deaktivirajKorisnika(Integer id) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -201,14 +200,13 @@ public class MySqlKorisnikRepository extends MySqlAbstractRepository implements 
             preparedStatement = connection.prepareStatement("UPDATE korisnik SET status = ? WHERE korisnik_id = ?");
             preparedStatement.setString(1, Status.NEAKTIVAN.toString());
             preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             this.closeStatement(preparedStatement);
             this.closeConnection(connection);
         }
-
-        return korisnik;
     }
 
     @Override
@@ -235,6 +233,6 @@ public class MySqlKorisnikRepository extends MySqlAbstractRepository implements 
         preparedStatement.setString(3, korisnik.getPrezime());
         preparedStatement.setString(4, korisnik.getLozinka());
         preparedStatement.setString(5, korisnik.getTip().toString());
-        preparedStatement.setString(6, korisnik.getStatus().toString());
+        preparedStatement.setString(6, Status.AKTIVAN.toString());
     }
 }

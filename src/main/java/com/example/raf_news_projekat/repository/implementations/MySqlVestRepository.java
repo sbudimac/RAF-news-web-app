@@ -60,8 +60,6 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
                 Integer kategorijaId = resultSet.getInt("kategorija_id");
                 vest = new Vest(naslov, tekst, vremeKreiranja, brojPoseta, autorId, kategorijaId);
                 vest.setVremeKreiranja(vremeKreiranja);
-
-                //completeVest(connection, preparedStatement, vest, idAutora, idKategorije);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -139,6 +137,7 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
        return tagovi;
     }
 
+    /*
     private Object[] tagovi(Integer tagId) {
         Object[] tagovi = new Object[0];
 
@@ -166,9 +165,10 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
         }
         return tagovi;
     }
+    */
 
     @Override
-    public List<Vest> getTagVesti(Integer tagId) {
+    public List<Vest> getTagVesti(String rec) {
         List<Vest> vesti = new ArrayList<>();
 
         Connection connection = null;
@@ -177,12 +177,10 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
 
         try {
             connection = this.newConnection();
-            //Array tagovi = connection.createArrayOf("INTEGER", this.tagovi(tagId));
             preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM vest INNER JOIN vesti_tagovi ON vest.vest_id = vesti_tagovi.vest_id WHERE vesti_tagovi.tag_id = ?"
+                    "SELECT * FROM vest INNER JOIN vesti_tagovi ON vest.vest_id = vesti_tagovi.vest_id WHERE vesti_tagovi.tag_rec LIKE ?"
             );
-            //preparedStatement.setArray(1, tagovi);
-            preparedStatement.setInt(1, tagId);
+            preparedStatement.setString(1, rec);
             resultSet = preparedStatement.executeQuery();
 
             traverseVesti(vesti, resultSet);
@@ -216,10 +214,11 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
                 tag.setTagId(tagId);
             }
 
-            preparedStatement = connection.prepareStatement("INSERT INTO vesti_tagovi (vest_id, tag_id) VALUES(?, ?)",
+            preparedStatement = connection.prepareStatement("INSERT INTO vesti_tagovi (vest_id, tag_rec, tag_id) VALUES(?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, vestId);
-            preparedStatement.setInt(2, tagId);
+            preparedStatement.setString(2, tag.getRec());
+            preparedStatement.setInt(3, tag.getTagId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

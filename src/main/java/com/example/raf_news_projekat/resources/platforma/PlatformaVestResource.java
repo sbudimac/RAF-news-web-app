@@ -81,8 +81,8 @@ public class PlatformaVestResource {
     }
 
     @GET
-    @Path("/tag/{tag_id}")
-    public List<Vest> getTagVesti(@PathParam("tag_id") Integer tagId) {
-        return this.vestService.getTagVesti(tagId);
+    @Path("/tag/{tag_rec}")
+    public List<Vest> getTagVesti(@PathParam("tag_rec") String rec) {
+        return this.vestService.getTagVesti(rec);
     }
 }

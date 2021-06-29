@@ -46,16 +46,16 @@ public class CMSKorisnikResource {
     @Path("/aktivacija/{korisnik_id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Korisnik aktivirajKorisnika(@PathParam("korisnik_id") Integer id, Korisnik korisnik) {
-        return this.korisnikService.aktivirajKorisnika(id, korisnik);
+    public void aktivirajKorisnika(@PathParam("korisnik_id") Integer id) {
+        this.korisnikService.aktivirajKorisnika(id);
     }
 
     @PUT
     @Path("/deaktivacija/{korisnik_id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Korisnik deaktivirajKorisnika(@PathParam("korisnik_id") Integer id, Korisnik korisnik) {
-        return this.korisnikService.deaktivirajKorisnika(id, korisnik);
+    public void deaktivirajKorisnika(@PathParam("korisnik_id") Integer id) {
+        this.korisnikService.deaktivirajKorisnika(id);
     }
 
     @DELETE

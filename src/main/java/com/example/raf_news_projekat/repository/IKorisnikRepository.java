@@ -11,7 +11,7 @@ public interface IKorisnikRepository {
     public Korisnik findKorisnik(String email);
     public Korisnik dodajKorisnika(Korisnik korisnik);
     public Korisnik izmeniKorisnika(Integer id, Korisnik korisnik);
-    public Korisnik aktivirajKorisnika(Integer id, Korisnik korisnik);
-    public Korisnik deaktivirajKorisnika(Integer id, Korisnik korisnik);
+    public void aktivirajKorisnika(Integer id);
+    public void deaktivirajKorisnika(Integer id);
     public void obrisiKorisnika(Integer korisnikId);
 }
