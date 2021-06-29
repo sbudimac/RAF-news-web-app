@@ -25,7 +25,7 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
             preparedStatement = connection.prepareStatement("SELECT * FROM vest ORDER BY vreme_kreiranja DESC");
             resultSet = preparedStatement.executeQuery();
 
-            traverseVesti(vesti, connection, resultSet);
+            traverseVesti(vesti, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -107,9 +107,131 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
         return vest;
     }
 
-    /*
-        dodavanje tagova
-     */
+    @Override
+    public List<Tag> getVestTagovi(Integer vestId) {
+       List<Tag> tagovi = new ArrayList<>();
+
+       Connection connection = null;
+       PreparedStatement preparedStatement = null;
+       ResultSet resultSet = null;
+
+       try {
+           connection = this.newConnection();
+           preparedStatement = connection.prepareStatement(
+                   "SELECT * FROM tag INNER JOIN vesti_tagovi ON tag.tag_id = vesti_tagovi.tag_id WHERE vesti_tagovi.vest_id = ?"
+           );
+           preparedStatement.setInt(1, vestId);
+           resultSet = preparedStatement.executeQuery();
+
+           while (resultSet.next()) {
+               Tag tag = new Tag(resultSet.getInt("tag_id"),
+                             resultSet.getString("rec"));
+               tagovi.add(tag);
+           }
+       } catch (SQLException e) {
+           e.printStackTrace();
+       } finally {
+           this.closeStatement(preparedStatement);
+           this.closeResultSet(resultSet);
+           this.closeConnection(connection);
+       }
+
+       return tagovi;
+    }
+
+    private Object[] tagovi(Integer tagId) {
+        Object[] tagovi = new Object[0];
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+            preparedStatement = connection.prepareStatement("SELECT * FROM tag WHERE rec LIKE (SELECT rec FROM tag WHERE tag_id = ?)");
+            preparedStatement.setInt(1, tagId);
+            resultSet = preparedStatement.executeQuery();
+
+            int i = 0;
+            tagovi = new Object[resultSet.getFetchSize()];
+            while (resultSet.next()) {
+                tagovi[i++] = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(preparedStatement);
+            this.closeResultSet(resultSet);
+            this.closeConnection(connection);
+        }
+        return tagovi;
+    }
+
+    @Override
+    public List<Vest> getTagVesti(Integer tagId) {
+        List<Vest> vesti = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+            //Array tagovi = connection.createArrayOf("INTEGER", this.tagovi(tagId));
+            preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM vest INNER JOIN vesti_tagovi ON vest.vest_id = vesti_tagovi.vest_id WHERE vesti_tagovi.tag_id = ?"
+            );
+            //preparedStatement.setArray(1, tagovi);
+            preparedStatement.setInt(1, tagId);
+            resultSet = preparedStatement.executeQuery();
+
+            traverseVesti(vesti, resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(preparedStatement);
+            this.closeResultSet(resultSet);
+            this.closeConnection(connection);
+        }
+
+        return vesti;
+    }
+
+    @Override
+    public Tag dodajTag(Tag tag, Integer vestId) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        int tagId = 0;
+
+        try {
+            connection = this.newConnection();
+            preparedStatement = connection.prepareStatement("INSERT INTO tag (rec) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, tag.getRec());
+            preparedStatement.executeUpdate();
+            resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                tagId = resultSet.getInt(1);
+                tag.setTagId(tagId);
+            }
+
+            preparedStatement = connection.prepareStatement("INSERT INTO vesti_tagovi (vest_id, tag_id) VALUES(?, ?)",
+                    Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setInt(1, vestId);
+            preparedStatement.setInt(2, tagId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(preparedStatement);
+            this.closeResultSet(resultSet);
+            this.closeConnection(connection);
+        }
+
+        return tag;
+    }
+
     @Override
     public Vest izmeniVest(Vest vest) {
         Connection connection = null;
@@ -146,6 +268,10 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
             preparedStatement = connection.prepareStatement("DELETE FROM vest WHERE vest_id = ?");
             preparedStatement.setInt(1, vestId);
             preparedStatement.executeUpdate();
+
+            preparedStatement = connection.prepareStatement("DELETE FROM komentar WHERE vest_id = ?");
+            preparedStatement.setInt(1, vestId);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -168,7 +294,7 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
             preparedStatement.setInt(1, BR_HOME_PAGE_VESTI);
             resultSet = preparedStatement.executeQuery();
 
-            traverseVesti(vesti, connection, resultSet);
+            traverseVesti(vesti, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -196,7 +322,7 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
             preparedStatement.setInt(1, BR_NAJCITANIJIH_VESTI);
             resultSet = preparedStatement.executeQuery();
 
-            traverseVesti(vesti, connection, resultSet);
+            traverseVesti(vesti, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -224,7 +350,7 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
             preparedStatement.setInt(1, kategorijaId);
             resultSet = preparedStatement.executeQuery();
 
-            traverseVesti(vesti, connection, resultSet);
+            traverseVesti(vesti, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -253,7 +379,7 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
             preparedStatement.setString(2, search);
             resultSet = preparedStatement.executeQuery();
 
-            traverseVesti(vesti, connection, resultSet);
+            traverseVesti(vesti, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -265,11 +391,9 @@ public class MySqlVestRepository extends MySqlAbstractRepository implements IVes
         return vesti;
     }
 
-    private void traverseVesti(List<Vest> vesti, Connection connection, ResultSet resultSet) throws SQLException {
+    private void traverseVesti(List<Vest> vesti, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
-            Vest vest = null;
-
-            vest = new Vest(resultSet.getInt("vest_id"),
+            Vest vest = new Vest(resultSet.getInt("vest_id"),
                             resultSet.getString("naslov"),
                             resultSet.getString("tekst"),
                             resultSet.getInt("broj_poseta"));

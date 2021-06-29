@@ -1,6 +1,7 @@
 package com.example.raf_news_projekat.resources.platforma;
 
 import com.example.raf_news_projekat.model.Komentar;
+import com.example.raf_news_projekat.model.Tag;
 import com.example.raf_news_projekat.model.Vest;
 import com.example.raf_news_projekat.services.KomentarService;
 import com.example.raf_news_projekat.services.VestService;
@@ -70,5 +71,18 @@ public class PlatformaVestResource {
     @Path("/{vest_id}")
     public Komentar dodajKomentar(Komentar komentar, @PathParam("vest_id") Integer id) {
         return this.komentarService.dodajKomentar(komentar, id);
+    }
+
+    @GET
+    @Path("/tagovi/{vest_id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Tag> getVestTagovi(@PathParam("vest_id") Integer vestId) {
+        return this.vestService.getVestTagovi(vestId);
+    }
+
+    @GET
+    @Path("/tag/{tag_id}")
+    public List<Vest> getTagVesti(@PathParam("tag_id") Integer tagId) {
+        return this.vestService.getTagVesti(tagId);
     }
 }

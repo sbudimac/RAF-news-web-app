@@ -1,6 +1,7 @@
 package com.example.raf_news_projekat.services;
 
 import com.example.raf_news_projekat.model.Kategorija;
+import com.example.raf_news_projekat.model.Tag;
 import com.example.raf_news_projekat.model.Vest;
 import com.example.raf_news_projekat.repository.IVestRepository;
 
@@ -22,6 +23,18 @@ public class VestService {
 
     public Vest dodajVest(Vest vest) {
         return this.vestRepository.dodajVest(vest);
+    }
+
+    public List<Tag> getVestTagovi(Integer vestId) {
+        return this.vestRepository.getVestTagovi(vestId);
+    }
+
+    public List<Vest> getTagVesti(Integer tagId) {
+        return this.vestRepository.getTagVesti(tagId);
+    }
+
+    public Tag dodajTag(Tag tag, Integer vestId) {
+        return this.vestRepository.dodajTag(tag, vestId);
     }
 
     public Vest izmeniVest(Vest vest) {

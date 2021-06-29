@@ -51,13 +51,12 @@ public class MySqlKomentarRepository extends MySqlAbstractRepository implements 
         try {
             connection = this.newConnection();
             preparedStatement = connection.prepareStatement(
-                    "INSERT INTO komentar (ime_autora, tekst, datum_kreiranja) VALUES (?, ?, ?, ?)",
+                    "INSERT INTO komentar (ime_autora, tekst, datum_kreiranja, vest_id) VALUES (?, ?, CURRENT_TIMESTAMP(), ?)",
                     Statement.RETURN_GENERATED_KEYS
             );
             preparedStatement.setString(1, komentar.getImeAutora());
             preparedStatement.setString(2, komentar.getKomentar());
-            preparedStatement.setDate(3, komentar.getDatumKreiranja());
-            preparedStatement.setInt(4, vestId);
+            preparedStatement.setInt(3, vestId);
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
